@@ -9,14 +9,20 @@ Autor : Benoit Foujols \
 Website : [slimframework.com](https://www.slimframework.com/)
 
 ## Objectif 
-Test de la framework "Slim" avec différents composants.\
+Test de la framework "Slim" pour une simple route avec comme implementation Slim/PSR-7
 Les prérequis sont :
 - php 8.0 (CLI)
 - composer 2.0
 - Slim 4.9
 
-## Description des dossiers
-- Simple route (test de route)
-
-
 ## installation
+```
+composer require slim/slim:"4.*"
+composer require slim/psr7
+```
+
+## demarrer le server
+```
+cd public/
+php -S localhost:8888
+```
