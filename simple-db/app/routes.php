@@ -15,8 +15,13 @@ return function (App $app) {
     });
 
     $app->get('/', function (Request $request, Response $response) {
-        $response->getBody()->write('Hello world!');
-        return $response;
+        $db = $this->get(PDO::class);
+        $sth = $db->prepare("SELECT * FROM test");
+        $sth->execute();
+        $data = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $payload = json_encode($data);
+        $response->getBody()->write($payload);
+        return $response->withHeader('Content-Type', 'application/json');
     });
 
     $app->group('/users', function (Group $group) {

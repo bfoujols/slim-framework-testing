@@ -7,14 +7,14 @@
 ```                                                                            
 Autor : Benoit Foujols \
 Website : [slimframework.com](https://www.slimframework.com/)
-Add-on : [Twig-View](https://github.com/slimphp/Twig-View)
+Doc : [slim 4 Doc](https://www.slimframework.com/docs/v4/)
 
 ## Objectif
 Test de la framework "Slim" pour une simple route avec comme implementation Slim/PSR-7
 Les prérequis sont :
 - php 8.0 (CLI)
 - composer 2.0
-- Slim 4.9
+- Slim skeleton 4.4
 
 ## installation du projet
 ```
@@ -32,7 +32,45 @@ composer start
 composer create-project slim/slim-skeleton simple-db
 ```
 Ajoutez une base de donnée via app/settings.php
+```
+    "db" => [
+        'driver' => 'mysql',
+        'host' => 'localhost',
+        'username' => 'root',
+            'database' => 'slim_test',
+        'password' => '***',
+        'charset' => 'utf8mb4',
+        'collation' => 'utf8mb4_unicode_ci',
+        'flags' => [
+            // Turn off persistent connections
+            PDO::ATTR_PERSISTENT => false,
+            // Enable exceptions
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            // Emulate prepared statements
+            PDO::ATTR_EMULATE_PREPARES => true,
+            // Set default fetch mode to array
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ],
+    ],
+```
+Ajoutez les settings via app/dependencies.php
+```
+    PDO::class => function (ContainerInterface $c) {
 
+        $settings = $c->get(SettingsInterface::class);
+
+        $dbSettings = $settings->get('db');
+
+        $host = $dbSettings['host'];
+        $dbname = $dbSettings['database'];
+        $username = $dbSettings['username'];
+        $password = $dbSettings['password'];
+        $charset = $dbSettings['charset'];
+        $flags = $dbSettings['flags'];
+        $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
+        return new PDO($dsn, $username, $password);
+    },
+```
 
 ---
 ## Docker
