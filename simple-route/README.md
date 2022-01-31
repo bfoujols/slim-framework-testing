@@ -15,14 +15,19 @@ Les prérequis sont :
 - composer 2.0
 - Slim 4.9
 
-## installation
+## installation du projet
 ```
-composer require slim/slim:"4.*"
-composer require slim/psr7
+composer install
 ```
 
 ## demarrer le server
 ```
 cd public/
 php -S localhost:8888
+```
+
+## Procedure d'installation à partir de zero
+```
+composer require slim/slim:"4.*"
+composer require slim/psr7
 ```

@@ -19,16 +19,21 @@ Les prérequis sont :
 - Slim 4.9
 - Twig-View 3.3
 
-## installation
+## installation du projet
 ```
-composer require slim/slim:"4.*"
-composer require slim/psr7
-composer require slim/twig-view:^3.0
-mkdir var/cache
+composer install
 ```
 
 ## demarrer le server
 ```
 cd public/
 php -S localhost:8888
+```
+
+## Procedure d'installation à partir de zero
+```
+composer require slim/slim:"4.*"
+composer require slim/psr7
+composer require slim/twig-view:^3.0
+mkdir var/cache
 ```
