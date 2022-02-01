@@ -1,42 +1,95 @@
-# Slim Framework 4 Skeleton Application
+```
+     _ _             _____                                            _    
+ ___| (_)_ __ ___   |  ___| __ __ _ _ __ ___   _____      _____  _ __| | __
+/ __| | | '_ ` _ \  | |_ | '__/ _` | '_ ` _ \ / _ \ \ /\ / / _ \| '__| |/ /
+\__ \ | | | | | | | |  _|| | | (_| | | | | | |  __/\ V  V / (_) | |  |   <
+|___/_|_|_| |_| |_| |_|  |_|  \__,_|_| |_| |_|\___| \_/\_/ \___/|_|  |_|\_\
+```                                                                            
+Autor : Benoit Foujols \
+Website : [slimframework.com](https://www.slimframework.com/)
+Doc : [slim 4 Doc](https://www.slimframework.com/docs/v4/)
 
-[![Coverage Status](https://coveralls.io/repos/github/slimphp/Slim-Skeleton/badge.svg?branch=master)](https://coveralls.io/github/slimphp/Slim-Skeleton?branch=master)
+# Projet Slim/db/template
+L'objectif est de fournir aux étudiants un support complet pour dev leurs projets de fin de premiere année.
 
-Use this skeleton application to quickly setup and start working on a new Slim Framework 4 application. This application uses the latest Slim 4 with Slim PSR-7 implementation and PHP-DI container implementation. It also uses the Monolog logger.
+## Objectif
+Test de la framework "Slim" pour une simple route avec comme implementation Slim/PSR-7
+Les prérequis sont :
+- php 8.0 (CLI)
+- composer 2.0
+- Slim skeleton 4.4
+- PDO Mysql + Mysql
 
-This skeleton application was built for Composer. This makes setting up a new Slim Framework application quick and easy.
-
-## Install the Application
-
-Run this command from the directory in which you want to install your new Slim Framework application. You will require PHP 7.3 or newer.
-
-```bash
-composer create-project slim/slim-skeleton [my-app-name]
+## Installation du projet
+```
+composer install
 ```
 
-Replace `[my-app-name]` with the desired directory name for your new application. You'll want to:
-
-* Point your virtual host document root to your new application's `public/` directory.
-* Ensure `logs/` is web writable.
-
-To run the application in development, you can run these commands 
-
+## Demarrer le server
 ```bash
-cd [my-app-name]
+cd app-skeleton-slim
 composer start
 ```
 
+## Procedure d'installation à partir de zero
+```bash
+composer create-project slim/slim-skeleton app-skeleton-slim
+```
+Ajoutez une base de donnée via app/settings.php
+```
+    "db" => [
+        'driver' => 'mysql',
+        'host' => 'localhost',
+        'username' => 'root',
+            'database' => 'slim_test',
+        'password' => '***',
+        'charset' => 'utf8mb4',
+        'collation' => 'utf8mb4_unicode_ci',
+        'flags' => [
+            // Turn off persistent connections
+            PDO::ATTR_PERSISTENT => false,
+            // Enable exceptions
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            // Emulate prepared statements
+            PDO::ATTR_EMULATE_PREPARES => true,
+            // Set default fetch mode to array
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+        ],
+    ],
+```
+Ajoutez les settings via app/dependencies.php
+```
+    PDO::class => function (ContainerInterface $c) {
+
+        $settings = $c->get(SettingsInterface::class);
+
+        $dbSettings = $settings->get('db');
+
+        $host = $dbSettings['host'];
+        $dbname = $dbSettings['database'];
+        $username = $dbSettings['username'];
+        $password = $dbSettings['password'];
+        $charset = $dbSettings['charset'];
+        $flags = $dbSettings['flags'];
+        $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
+        return new PDO($dsn, $username, $password);
+    },
+```
+
+---
+## Docker
+
 Or you can use `docker-compose` to run the app with `docker`, so you can run these commands:
 ```bash
-cd [my-app-name]
+cd simple-db
 docker-compose up -d
 ```
 After that, open `http://localhost:8080` in your browser.
 
-Run this command in the application directory to run the test suite
+---
+## Testing
 
 ```bash
 composer test
 ```
 
-That's it! Now go build something cool.
