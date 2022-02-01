@@ -15,9 +15,16 @@ Les prérequis sont :
 - composer 2.0
 - Slim 4.9
 
-## Description des dossiers
-- Simple route (test de route) -> simple-route
-- Simple render view via twig -> simple-view-render-twig
+## Description des projets
+Voici les differents tests sur la framework slim
+
+| Valide | Path                    | Description                                            |
+|:-------|:------------------------|:-------------------------------------------------------|
+| V      | simple-route            | Test sur une simple route                              |
+| V      | simple-view-render-twig | Test sur une implementation de la couche view via twig |
+| V      | simple-db               | Test sur une implementation d'une base de donnée       |
+| F      | app-skeleton-odan       | Test d'un skeleton slim4 custom by Daniel Opitz (odan) |
+| V      | app-skeleton-slim  | Test du skeleton officiel de slim4                     |
 
 ## stack
 - Slim Framework
