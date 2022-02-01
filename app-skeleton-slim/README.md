@@ -34,46 +34,24 @@ composer start
 ## Procedure d'installation à partir de zero
 ```bash
 composer create-project slim/slim-skeleton app-skeleton-slim
+composer require vlucas/phpdotenv
 ```
-Ajoutez une base de donnée via app/settings.php
+Ajoutez une base de donnée en copiant ce code dans app/dependencies.php
 ```
-    "db" => [
-        'driver' => 'mysql',
-        'host' => 'localhost',
-        'username' => 'root',
-            'database' => 'slim_test',
-        'password' => '***',
-        'charset' => 'utf8mb4',
-        'collation' => 'utf8mb4_unicode_ci',
-        'flags' => [
-            // Turn off persistent connections
-            PDO::ATTR_PERSISTENT => false,
-            // Enable exceptions
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            // Emulate prepared statements
-            PDO::ATTR_EMULATE_PREPARES => true,
-            // Set default fetch mode to array
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-        ],
-    ],
-```
-Ajoutez les settings via app/dependencies.php
-```
-    PDO::class => function (ContainerInterface $c) {
+        PDO::class => function (ContainerInterface $c) {
 
-        $settings = $c->get(SettingsInterface::class);
+            $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+            $dotenv->load();
 
-        $dbSettings = $settings->get('db');
+            $dsn = "mysql:host=".$_ENV['DB_HOST'].";dbname=".$_ENV['DB_DATABASE'].";charset=".$_ENV['DB_CHARSET'];
+            return new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASSWORD']);
+        },
+```
 
-        $host = $dbSettings['host'];
-        $dbname = $dbSettings['database'];
-        $username = $dbSettings['username'];
-        $password = $dbSettings['password'];
-        $charset = $dbSettings['charset'];
-        $flags = $dbSettings['flags'];
-        $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
-        return new PDO($dsn, $username, $password);
-    },
+C le fichier de configuration d'envirronement
+```
+cd app-skeleton-slim/app/
+mv exemple.env .env
 ```
 
 ---
@@ -81,7 +59,7 @@ Ajoutez les settings via app/dependencies.php
 
 Or you can use `docker-compose` to run the app with `docker`, so you can run these commands:
 ```bash
-cd simple-db
+cd app-skeleton-slim
 docker-compose up -d
 ```
 After that, open `http://localhost:8080` in your browser.
