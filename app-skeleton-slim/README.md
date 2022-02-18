@@ -57,6 +57,11 @@ Copier/Coller le fichier de configuration
 cd app-skeleton-slim/app/
 cp exemple.env .env
 ```
+Installation de la couche view 
+```
+composer require slim/twig-view:^3.0
+mkdir var/cache
+```
 
 ---
 ## Docker
