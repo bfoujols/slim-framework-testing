@@ -22,8 +22,12 @@ Les prérequis sont :
 
 ## Installation du projet
 ```
+cd app-skeleton-slim
 composer install
+cd app
+cp exemple.env .env
 ```
+[X] Remplacez les variables d'env par la configuration
 
 ## Demarrer le server
 ```bash
@@ -48,10 +52,10 @@ Ajoutez une base de donnée en copiant ce code dans app/dependencies.php
         },
 ```
 
-C le fichier de configuration d'envirronement
+Copier/Coller le fichier de configuration
 ```
 cd app-skeleton-slim/app/
-mv exemple.env .env
+cp exemple.env .env
 ```
 
 ---
